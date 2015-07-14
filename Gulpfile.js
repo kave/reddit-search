@@ -1,5 +1,6 @@
 var gulp       = require('gulp'),
-    browserify = require('gulp-browserify');
+    browserify = require('gulp-browserify'),
+    nodemon = require('gulp-nodemon');
 
 gulp.task('scripts', function () {
 
@@ -12,5 +13,20 @@ gulp.task('scripts', function () {
 
 });
 
-gulp.task('default', ['scripts']);
+gulp.task('watch', function () {
+    gulp.watch(['app/**/*.*'], ['scripts']);
+});
+
+gulp.task('start', function () {
+    nodemon({
+        script: 'server.js'
+        , ext: 'js html'
+        , env: { 'NODE_ENV': 'development' }
+        , tasks: ['scripts']
+    }).on('restart', function () {
+        console.log('restarted!')
+    })
+});
+
+gulp.task('default', ['scripts', 'start']);
 
