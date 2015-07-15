@@ -2,3 +2,5 @@ node_modules/
 npm-debug.log
 .idea
 db
+mongo-connector.log
+oplog.timestamp

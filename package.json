@@ -9,7 +9,6 @@
     "express": "~4.0.0",
     "griddle-react": "^0.1.19",
     "gulp-nodemon": "^2.0.3",
-    "mongoosastic": "^3.1.2",
     "mongoose": "^4.0.7",
     "path": "*",
     "react": "~0.12.0",

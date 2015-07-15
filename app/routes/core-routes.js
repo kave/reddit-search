@@ -1,9 +1,7 @@
 var mongoose = require("mongoose");
-var mongoosastic = require("mongoosastic");
 var models = require('../models');
 
 var React = require('react/addons');
-//SearchBox = React.createFactory(require('../components/SearchBox'));
 
 var Snoocore = require('snoocore');
 var reddit = new Snoocore({
@@ -22,22 +20,16 @@ mongoose.connect('mongodb://localhost:27017/reddit');
 module.exports = function (app) {
 
     app.get('/', function (req, res) {
-        // React.renderToString takes your component
-        // and generates the markup
-
-        //var reactHtml = React.renderToString(SearchBox({data: testData}));
-        //res.render('index.ejs', {reactOutput: reactHtml});
         res.render('index.ejs', {reactOutput: ''});
     });
 
     app.get('/reddit/', function (req, res) {
         var RedditSub = models('RedditSub');
 
-        RedditSub.findOne({subreddit: 'gamedeals'}, function (err, docs) {
+        RedditSub.find({subreddit: 'gamedeals'}, {name:1, link:1, _id:0, subreddit:1}, function (err, docs) {
             if (err)
                 console.log('error occured in the database');
-
-            if (docs == null) {
+            if (docs.length == 0) {
                 console.log('empty db');
                 reddit('/r/gamedeals/hot').get({
                         limit: 75
@@ -50,36 +42,22 @@ module.exports = function (app) {
                                 name: link.data.title,
                                 link: link.data.url
                             });
-                        });
+                            redditSub = new RedditSub({
+                                subreddit: 'gamedeals',
+                                name: link.data.title,
+                                link: link.data.url
+                            });
 
-                        redditSub = new RedditSub({
-                            subreddit: 'gamedeals',
-                            data: data
-                        });
-
-                        redditSub.save(function (err) {
-                            console.log('data saved'); redditSub.on('es-indexed', function (err) {
-                                console.log('data indexed');
-
-                                RedditSub.createMapping(function (err, mapping) {
-                                    if (err) {
-                                        //console.log('error creating mapping (you can safely ignore this)');
-                                        //console.log(err);
-                                    } else {
-                                        console.log('mapping created!');
-                                        console.log(mapping);
-                                    }
-
-                                    res.json(data);
-                                    //res.redirect("/");
-                                });
-
+                            redditSub.save(function (err) {
+                                console.log('game data saved');
                             });
                         });
+
+                        res.json(data);
                     });
             }
             else {
-                res.json(docs.data);
+                res.json(docs);
             }
         });
 
