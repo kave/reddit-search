@@ -25,6 +25,12 @@ gulp.task('css', function () {
         .pipe(gulp.dest('public/'));
 });
 
+gulp.task('fonts', function () {
+    return gulp.src([
+        'bower_components/font-awesome/fonts/*'
+    ]).pipe(gulp.dest('public/fonts'));
+});
+
 gulp.task('watch', function () {
     gulp.watch(['app/**/*.*'], ['scripts']);
 });
@@ -40,5 +46,5 @@ gulp.task('start', function () {
     })
 });
 
-gulp.task('default', ['scripts', 'start']);
+gulp.task('default', ['scripts', 'fonts', 'start']);
 
