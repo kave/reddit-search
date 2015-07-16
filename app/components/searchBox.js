@@ -14,10 +14,6 @@ var client = new elasticsearch.Client({
 function highlighted(link, highlight){
     if('name' in highlight){
         link.name = highlight.name[0];
-       // link.name = link.name.replace(/em/g,'strong');
-    }
-    if('link' in highlight){
-        link.link = highlight.link[0];
     }
 
     return link;
@@ -53,7 +49,12 @@ var GriddleTableNameItem = React.createClass({
     render: function () {
         return <div dangerouslySetInnerHTML={{__html: this.props.data}}/>;
     }
+});
 
+var GriddleTableLinkItem = React.createClass({
+    render: function () {
+        return <a href={this.props.data} target="_blank">{this.props.data}</a>;
+    }
 });
 
 var DisplayTable = React.createClass({
@@ -138,7 +139,7 @@ var QueryFilter = React.createClass({
                     "visible": true,
                     "cssClassName": "text-center",
                     "displayName": "Link",
-                    "customComponent": GriddleTableNameItem
+                    "customComponent": GriddleTableLinkItem
                 }],
             resultsPerPage: 8
         }
@@ -154,7 +155,8 @@ var QueryFilter = React.createClass({
                         columns={this.state.columns}
                         resultsPerPage={this.state.resultsPerPage}
                         columnMetadata={this.state.columnMetadata}
-                        tableClassName="table"/>
+                        tableClassName="table table-striped table-hover"
+                        useGriddleStyles={false}/>
 
                 </div>
             </div>

@@ -1,0 +1,20 @@
+{
+  "name": "reddit-search",
+  "version": "0.0.0",
+  "homepage": "n",
+  "authors": [
+    "etapau <etapau@gmail.com>"
+  ],
+  "description": "Elastic Search of Reddit Subreddits",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.3.0"
+  }
+}

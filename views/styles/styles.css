@@ -1,0 +1,26 @@
+
+
+#table-area {
+    width: 80%;
+    margin: auto;
+}
+
+.griddle-page{
+    text-align:center;
+    width:33%;
+    float:right;
+    min-height:1px;
+    margin-top:5px;
+}
+
+.griddle-next{
+    text-align:left;width:5%;float:left;min-height:1px;margin-top:5px;
+}
+
+.griddle-previous{
+    width:8%;float:left;min-height:1px;margin-top:5px;
+}
+
+em{
+    background-color: #4cae4c;
+}
