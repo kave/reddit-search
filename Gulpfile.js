@@ -18,10 +18,11 @@ gulp.task('css', function () {
     return gulp.src([
         'bower_components/font-awesome/css/font-awesome.css',
         'views/styles/styles.css',
-        'views/styles/spaceship-bootstrap.css'
+        'views/styles/spaceship-bootstrap.css',
+        'node_modules/react-modal-bootstrap/lib/modal.css'
     ])
         .pipe(concat('css.css'))
-        .pipe(minifyCss())
+       // .pipe(minifyCss())
         .pipe(gulp.dest('public/'));
 });
 

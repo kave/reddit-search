@@ -5,7 +5,7 @@ var redditSubSchema = new mongoose.Schema({
     name: String,
     link: String,
     text: String,
-    createdAt: { type: Date, expires: '3600', default: Date.now }
+    createdAt: { type: Date, expires: '1h', default: Date.now }
 });
 
 module.exports = mongoose.model("RedditSub", redditSubSchema);

@@ -28,7 +28,7 @@ app.get('*', function (req, res) {
 
 var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
-rule.minute = new schedule.Range(0, 59, 5);
+rule.minute = new schedule.Range(0, 59, 60);
 
 var mongoose = require("mongoose");
 var models = require('./app/models');
@@ -37,7 +37,6 @@ var RedditSub = models('RedditSub');
 var subreddits = config('redditAPI').subreddits;
 var redditAPI = config('redditAPI').api;
 
-//mongoose.connect('mongodb://localhost:27017/reddit');
 schedule.scheduleJob(rule, function () {
     console.log('Updating Database... every 5 mins');
     subreddits.forEach(function (subName) {
@@ -47,11 +46,23 @@ schedule.scheduleJob(rule, function () {
         ).then(function (body) {
                 var children = body.data.children;
                 children.forEach(function (link) {
-                    redditSub = new RedditSub({
-                        subreddit: subName,
-                        name: link.data.title,
-                        link: link.data.url
-                    });
+                    var redditSub;
+                    if(link.data.selftext_html != null) {
+                        redditSub = new RedditSub({
+                            subreddit: subName,
+                            name: link.data.title,
+                            link: link.data.url,
+                            text: link.data.selftext_html.substring(21, link.data.selftext_html.length - 20)
+                        });
+                    }
+                    else{
+                        redditSub = new RedditSub({
+                            subreddit: subName,
+                            name: link.data.title,
+                            link: link.data.url,
+                            text: ''
+                        });
+                    }
 
                     redditSub.save(function (err) {
                     });
