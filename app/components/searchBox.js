@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react/addons');
-var Griddle = React.createFactory(require('griddle-react'));
+var Griddle = require('griddle-react');
 var models = require('../models');
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
@@ -11,8 +11,8 @@ var client = new elasticsearch.Client({
     keepAlive: true // Tested
 });
 
-function highlighted(link, highlight){
-    if('name' in highlight){
+function highlighted(link, highlight) {
+    if ('name' in highlight) {
         link.name = highlight.name[0];
     }
 
@@ -36,18 +36,40 @@ var SearchBox = React.createClass({
     }
 });
 
-var TableItem = React.createClass({
-    render: function () {
-        return <tr>
-            <td className="blah"><div dangerouslySetInnerHTML={{__html: this.props.data.name}}> siiigh</div></td>
-            <td>{this.props.data.link}</td>
-        </tr>;
-    }
-});
+var Modal = require('react-modal-bootstrap');
+var ModalClose = require('react-modal-bootstrap/lib/ModalClose');
 
 var GriddleTableNameItem = React.createClass({
+
+    getInitialState: function () {
+        return {isOpen: false};
+    },
+    openModal: function () {
+        this.setState({isOpen: true});
+    },
+    hideModal: function () {
+        this.setState({isOpen: false});
+    },
     render: function () {
-        return <div dangerouslySetInnerHTML={{__html: this.props.data}}/>;
+        return (
+            <div>
+                <div onClick={this.openModal} dangerouslySetInnerHTML={{__html: this.props.data}}/>
+                <Modal
+                    isOpen={this.state.isOpen}
+                    onRequestHide={this.hideModal}
+                >
+                    <div className='modal-header'>
+                        <ModalClose onClick={this.hideModal}/>
+                        <h4 className='modal-title'>Link Description</h4>
+                    </div>
+                    <div className='modal-body'>
+                        <div dangerouslySetInnerHTML={{__html: this.props.rowData.text}}/>
+                    </div>
+                </Modal>
+
+            </div>
+
+        );
     }
 });
 
@@ -96,15 +118,15 @@ var QueryFilter = React.createClass({
                     }
                 },
                 highlight: {
-                    fields : {
-                        name : {},
-                        link : {}
+                    fields: {
+                        name: {},
+                        link: {}
                     }
                 }
             }
         }).then(function (resp) {
             var hits = resp.hits.hits;
-            hits.forEach(function(res){
+            hits.forEach(function (res) {
                 queryResult.push(highlighted(res._source, res.highlight));
             });
 
@@ -121,7 +143,7 @@ var QueryFilter = React.createClass({
         return {
             query: '',
             filteredData: this.props.data,
-            columns: ["name", "link"],
+            columns: ["name", "link", "text"],
             columnMetadata: [
                 {
                     "columnName": "name",
@@ -140,8 +162,16 @@ var QueryFilter = React.createClass({
                     "cssClassName": "text-center",
                     "displayName": "Link",
                     "customComponent": GriddleTableLinkItem
-                }],
-            resultsPerPage: 8
+                },
+                {
+                    "columnName": "text",
+                    "order": 3,
+                    "locked": false,
+                    "visible": false,
+                    "cssClassName": "hide"
+                }
+            ],
+            resultsPerPage: 8,
         }
     },
 
