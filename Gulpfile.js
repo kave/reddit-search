@@ -5,7 +5,7 @@ var gulp       = require('gulp'),
     uglify = require('gulp-uglify'),
     minifyCss = require('gulp-minify-css');
 
-gulp.task('scripts', ['css'], function () {
+gulp.task('scripts', function () {
     gulp.src(['app/main.js'])
         .pipe(browserify({
             debug: true,
@@ -40,11 +40,11 @@ gulp.task('start', function () {
         script: 'server.js'
         , ext: 'js html css'
         , env: { 'NODE_ENV': 'development' }
-        , tasks: ['scripts']
+        , tasks: ['scripts', 'css']
     }).on('restart', function () {
         console.log('restarted!')
     })
 });
 
-gulp.task('default', ['scripts', 'fonts', 'start']);
+gulp.task('default', ['scripts','css', 'fonts', 'start']);
 
