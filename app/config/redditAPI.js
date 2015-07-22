@@ -3,8 +3,8 @@ var reddit = new Snoocore({
     userAgent: 'reddit-elastic-search-debug',
     oauth: {
         type: 'explicit',
-        key: 'rffsox3_05QgRw',
-        secret: 'fNEULM0mltK2CKk1sWXU_BrEbmE',
+        key: process.env.REDDIT_KEY,
+        secret: process.env.REDDIT_SECRET,
         redirectUri: 'http://localhost:4444/',
         scope: ['read']
     }

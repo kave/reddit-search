@@ -61,7 +61,12 @@ var GriddleTableNameItem = React.createClass({
         this.setState({isOpen: false});
     },
     render: function () {
-        var text = $.parseHTML(this.props.rowData.text)[0].textContent;
+        var text = $.parseHTML(this.props.rowData.text);
+        if(text != null)
+            text = text[0].textContent;
+        else
+            text = "No Description";
+
         return (
             <div>
                 <div onClick={this.openModal} dangerouslySetInnerHTML={{__html: this.props.data}}/>
