@@ -63,9 +63,9 @@ schedule.scheduleJob(rule, function () {
                             text: ''
                         });
                     }
-
-                    redditSub.save(function (err) {
-                    });
+                    if(redditSub != null) {
+                        redditSub.save(function (err) {});
+                    }
                 });
             });
     });

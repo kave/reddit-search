@@ -11,6 +11,7 @@
     "griddle-react": "^0.1.19",
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.0.3",
+    "jquery": "^2.1.4",
     "mongoose": "^4.0.7",
     "node-schedule": "^0.2.9",
     "path": "*",

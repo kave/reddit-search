@@ -4,6 +4,7 @@ var React = require('react/addons');
 var Griddle = require('griddle-react');
 var models = require('../models');
 var elasticsearch = require('elasticsearch');
+
 var client = new elasticsearch.Client({
     host: 'localhost:9200',
     //log: 'trace',
@@ -12,9 +13,14 @@ var client = new elasticsearch.Client({
 });
 
 function highlighted(link, highlight) {
-    if ('name' in highlight) {
-        link.name = highlight.name[0];
+    if(highlight != null) {
+        if ('name' in highlight) {
+            link.name = highlight.name[0];
+        }
     }
+    //if ('text' in highlight) {
+    //    link.text = highlight.text[0];
+    //}
 
     return link;
 }
@@ -31,7 +37,10 @@ var SearchBox = React.createClass({
     },
     render: function () {
         return (
-            <input type="text" ref="searchInput" className="form-control" placeholder={this.state.message} value={this.props.query} onChange={this.search}/>
+            <div className="form-inline">
+                <input type="text" ref="searchInput" className="form-control" style={{width: 90 + '%'}} placeholder={this.state.message} value={this.props.query} onChange={this.search}/>
+                <a className="btn btn-primary" href="/">Clear</a>
+            </div>
         );
     }
 });
@@ -39,6 +48,7 @@ var SearchBox = React.createClass({
 var Modal = require('react-modal-bootstrap');
 var ModalClose = require('react-modal-bootstrap/lib/ModalClose');
 
+var $ = require("jQuery");
 var GriddleTableNameItem = React.createClass({
 
     getInitialState: function () {
@@ -51,27 +61,25 @@ var GriddleTableNameItem = React.createClass({
         this.setState({isOpen: false});
     },
     render: function () {
+        var text = $.parseHTML(this.props.rowData.text)[0].textContent;
         return (
             <div>
                 <div onClick={this.openModal} dangerouslySetInnerHTML={{__html: this.props.data}}/>
-                <Modal
-                    isOpen={this.state.isOpen}
-                    onRequestHide={this.hideModal}
-                >
+                <Modal isOpen={this.state.isOpen} onRequestHide={this.hideModal} >
                     <div className='modal-header'>
                         <ModalClose onClick={this.hideModal}/>
                         <h4 className='modal-title'>Link Description</h4>
                     </div>
                     <div className='modal-body'>
-                        <div dangerouslySetInnerHTML={{__html: this.props.rowData.text}}/>
+                        <div dangerouslySetInnerHTML={{__html: text}}/>
                     </div>
                 </Modal>
-
             </div>
-
         );
     }
 });
+
+
 
 var GriddleTableLinkItem = React.createClass({
     render: function () {
@@ -101,30 +109,49 @@ var DisplayTable = React.createClass({
 
 var QueryFilter = React.createClass({
     search: function (queryText) {
-        console.log(queryText);
-        var queryResult = [];
-        var state = this;
-        client.search({
+        var querySearchOptions = {
             index: 'reddit',
             type: 'redditsubs',
             body: {
                 query: {
-                    match: {
-                        name: {
-                            fuzziness: 2,
-                            query: queryText,
-                            prefix_length: 1
-                        }
+                    multi_match: {
+                        query: queryText,
+                        fields: [
+                            "name",
+                            "text"
+                        ],
+                        fuzziness: "2",
+                        prefix_length: 1
                     }
                 },
                 highlight: {
                     fields: {
                         name: {},
-                        link: {}
+                        text: {"force_source" : true, "number_of_fragments" : 0}
                     }
                 }
             }
-        }).then(function (resp) {
+        }
+
+        var returnAllOptions = {
+            index: 'reddit',
+            type: 'redditsubs',
+            body: {
+                query: {
+                    match_all: {}
+                }
+            }
+        };
+
+        var options;
+        if(queryText != null && queryText != '')
+            options = querySearchOptions;
+        else
+            options = returnAllOptions;
+
+        var state = this;
+        client.search(options).then(function (resp) {
+            var queryResult = [];
             var hits = resp.hits.hits;
             hits.forEach(function (res) {
                 queryResult.push(highlighted(res._source, res.highlight));
