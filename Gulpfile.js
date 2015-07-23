@@ -24,7 +24,7 @@ gulp.task('scripts_prod', function () {
             debug: false,
             transform: [ 'reactify' ]
         }))
-        .pipe(preprocess({context: { NODE_ENV: 'prod', SEARCHBOX_SSL_URL: process.env.SEARCHBOX_SSL_URL}})) //To set environment variables in-line
+        .pipe(preprocess({context: { NODE_ENV: 'prod', ELASTICSEARCH_URL: process.env.ELASTICSEARCH_URL, SEARCHBOX_SSL_URL: process.env.SEARCHBOX_SSL_URL}})) //To set environment variables in-line
         .pipe(gulp.dest('./public/'));
 });
 
