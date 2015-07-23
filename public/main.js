@@ -63,28 +63,32 @@ var GriddleTableNameItem = React.createClass({displayName: "GriddleTableNameItem
     },
     render: function () {
         var text = $.parseHTML(this.props.rowData.text);
-        if(text != null)
+        if(text != null) {
             text = text[0].textContent;
-        else
-            text = "No Description";
-
-        return (
-            React.createElement("div", null, 
-                React.createElement("div", {onClick: this.openModal, dangerouslySetInnerHTML: {__html: this.props.data}}), 
-                React.createElement(Modal, {isOpen: this.state.isOpen, onRequestHide: this.hideModal}, 
-                    React.createElement("div", {className: "modal-header"}, 
-                        React.createElement(ModalClose, {onClick: this.hideModal}), 
-                        React.createElement("h4", {className: "modal-title"}, "Link Description")
-                    ), 
-                    React.createElement("div", {className: "modal-body"}, 
-                        React.createElement("div", {dangerouslySetInnerHTML: {__html: text}})
+            return (
+                React.createElement("div", null, 
+                    React.createElement("a", {onClick: this.openModal, dangerouslySetInnerHTML: {__html: this.props.data}}), 
+                    React.createElement(Modal, {isOpen: this.state.isOpen, onRequestHide: this.hideModal}, 
+                        React.createElement("div", {className: "modal-header"}, 
+                            React.createElement(ModalClose, {onClick: this.hideModal}), 
+                            React.createElement("h4", {className: "modal-title"}, "Link Description")
+                        ), 
+                        React.createElement("div", {className: "modal-body"}, 
+                            React.createElement("div", {dangerouslySetInnerHTML: {__html: text}})
+                        )
                     )
                 )
-            )
-        );
+            );
+        }
+        else {
+            return (
+                    React.createElement("div", {dangerouslySetInnerHTML: {__html: this.props.data}})
+            );
+        }
+
+
     }
 });
-
 
 
 var GriddleTableLinkItem = React.createClass({displayName: "GriddleTableLinkItem",

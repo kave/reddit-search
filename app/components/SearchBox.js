@@ -67,28 +67,32 @@ var GriddleTableNameItem = React.createClass({
     },
     render: function () {
         var text = $.parseHTML(this.props.rowData.text);
-        if(text != null)
+        if(text != null) {
             text = text[0].textContent;
-        else
-            text = "No Description";
+            return (
+                <div>
+                    <a onClick={this.openModal} dangerouslySetInnerHTML={{__html: this.props.data}}/>
+                    <Modal isOpen={this.state.isOpen} onRequestHide={this.hideModal} >
+                        <div className='modal-header'>
+                            <ModalClose onClick={this.hideModal}/>
+                            <h4 className='modal-title'>Link Description</h4>
+                        </div>
+                        <div className='modal-body'>
+                            <div dangerouslySetInnerHTML={{__html: text}}/>
+                        </div>
+                    </Modal>
+                </div>
+            );
+        }
+        else {
+            return (
+                    <div dangerouslySetInnerHTML={{__html: this.props.data}}/>
+            );
+        }
 
-        return (
-            <div>
-                <div onClick={this.openModal} dangerouslySetInnerHTML={{__html: this.props.data}}/>
-                <Modal isOpen={this.state.isOpen} onRequestHide={this.hideModal} >
-                    <div className='modal-header'>
-                        <ModalClose onClick={this.hideModal}/>
-                        <h4 className='modal-title'>Link Description</h4>
-                    </div>
-                    <div className='modal-body'>
-                        <div dangerouslySetInnerHTML={{__html: text}}/>
-                    </div>
-                </Modal>
-            </div>
-        );
+
     }
 });
-
 
 
 var GriddleTableLinkItem = React.createClass({
