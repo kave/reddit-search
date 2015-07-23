@@ -6,6 +6,7 @@ var models = require('../models');
 var elasticsearch = require('elasticsearch');
 var connectionString = process.env.ELASTICSEARCH_URL || process.env.SEARCHBOX_URL;
 
+//TODO Find a way to make this connection string interchangeable between envs
 var client = new elasticsearch.Client({
     host: 'https://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
     //log: 'trace',
@@ -62,7 +63,6 @@ var GriddleTableNameItem = React.createClass({
         this.setState({isOpen: false});
     },
     render: function () {
-        console.log(connectionString);
         var text = $.parseHTML(this.props.rowData.text);
         if(text != null)
             text = text[0].textContent;

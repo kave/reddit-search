@@ -27,7 +27,7 @@ app.get('*', function (req, res) {
 
 var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
-rule.minute = new schedule.Range(0, 59, 1);
+rule.minute = new schedule.Range(0, 59, 60);
 
 var mongoose = require("mongoose");
 var models = require('./app/models');
