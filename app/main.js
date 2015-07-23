@@ -3,7 +3,7 @@ var React = require('react/addons');
 var SearchBox = require('./components/SearchBox');
 var request = require('request');
 
-request('http://localhost:4444/reddit/', function (error, response, data) {
+request('/reddit/', function (error, response, data) {
     //console.log(data);
     if(data != "" && data != null)
         data = JSON.parse(data);
