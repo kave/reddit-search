@@ -4,5 +4,4 @@ npm-debug.log
 db*
 mongo-connector.log*
 oplog.timestamp
-public
 bower_components
