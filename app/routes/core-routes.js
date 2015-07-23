@@ -6,7 +6,7 @@ var models = require('../models');
 var config = require('../config');
 var React = require('react/addons');
 
-mongoose.connect('mongodb://localhost:27020/reddit');
+mongoose.connect(process.env.MONGO_URL);
 
 module.exports = function (app) {
 

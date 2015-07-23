@@ -3,7 +3,6 @@
 var express = require('express'),
     path = require('path'),
     app = express(),
-    port = 4444,
     bodyParser = require('body-parser');
 
 // Make sure to include the JSX transpiler
@@ -71,5 +70,5 @@ schedule.scheduleJob(rule, function () {
     });
 });
 
-app.listen(port);
-console.log('Server is Up and Running at Port : ' + port);
+app.listen(process.env.PORT);
+console.log('Server is Up and Running at Port : ' + process.env.PORT);
