@@ -16,4 +16,4 @@ MongoDB
 1) gulp
 
 ### Screenshot
-![Search Screenshot](https://github.com/kave/reddit-search/raw/master/scrnShot.png "Reddit Search Screenshot")
+![Search Screenshot](https://github.com/kave/reddit-search/raw/master/images/scrnShot.png "Reddit Search Screenshot")

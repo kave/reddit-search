@@ -3,6 +3,7 @@ var gulp       = require('gulp'),
     nodemon = require('gulp-nodemon'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
+    preprocess = require('gulp-preprocess'),
     minifyCss = require('gulp-minify-css');
 
 var exec = require('child_process').exec;
@@ -10,9 +11,20 @@ var exec = require('child_process').exec;
 gulp.task('scripts', function () {
     gulp.src(['app/main.js'])
         .pipe(browserify({
-            debug: true,
+            debug: false,
             transform: [ 'reactify' ]
         }))
+        .pipe(preprocess({context: { NODE_ENV: 'dev', ELASTICSEARCH_URL: process.env.ELASTICSEARCH_URL, SEARCHBOX_SSL_URL: process.env.SEARCHBOX_SSL_URL}})) //To set environment variables in-line
+        .pipe(gulp.dest('./public/'));
+});
+
+gulp.task('scripts_prod', function () {
+    gulp.src(['app/main.js'])
+        .pipe(browserify({
+            debug: false,
+            transform: [ 'reactify' ]
+        }))
+        .pipe(preprocess({context: { NODE_ENV: 'prod', SEARCHBOX_SSL_URL: process.env.SEARCHBOX_SSL_URL}})) //To set environment variables in-line
         .pipe(gulp.dest('./public/'));
 });
 
@@ -34,6 +46,12 @@ gulp.task('fonts', function () {
     ]).pipe(gulp.dest('public/fonts'));
 });
 
+gulp.task('images', function () {
+    return gulp.src([
+        'images/logo.ico'
+    ]).pipe(gulp.dest('public/images'));
+});
+
 gulp.task('watch', function () {
     gulp.watch(['app/**/*.*'], ['scripts']);
 });
@@ -49,6 +67,8 @@ gulp.task('start', function () {
     })
 });
 
-gulp.task('nodemon', ['scripts','css', 'fonts', 'start']);
+gulp.task('dev', ['scripts','css', 'fonts', 'images', 'start']);
 
-gulp.task('default', ['scripts','css', 'fonts'], function() {});
+gulp.task('default', ['scripts','css', 'fonts', 'images'], function() {});
+
+gulp.task('prod', ['scripts_prod','css', 'fonts', 'images'], function() {});

@@ -4,11 +4,14 @@ var React = require('react/addons');
 var Griddle = require('griddle-react');
 var models = require('../models');
 var elasticsearch = require('elasticsearch');
-var connectionString = process.env.ELASTICSEARCH_URL || process.env.SEARCHBOX_URL;
 
-//TODO Find a way to make this connection string interchangeable between envs
 var client = new elasticsearch.Client({
-    host: 'https://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
+    // @if NODE_ENV='prod'
+    host: '/* @echo SEARCHBOX_SSL_URL */',
+    // @endif
+    // @if NODE_ENV='dev'
+    host: '/* @echo ELASTICSEARCH_URL */',
+    // @endif
     //log: 'trace',
     requestTimeout: Infinity, // Tested
     keepAlive: true // Tested
