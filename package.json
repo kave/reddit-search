@@ -22,6 +22,7 @@
     "react-modal-bootstrap": "^0.1.2",
     "request": "^2.58.0",
     "snoocore": "^3.2.0",
+    "node-jsx": "~0.2.0",
     "tls": "0.0.1"
   },
   "devDependencies": {
@@ -31,7 +32,6 @@
     "gulp-concat": "~2.4.1",
     "gulp-minify-css": "^1.2.0",
     "gulp-uglify": "^1.2.0",
-    "node-jsx": "~0.2.0",
     "react-tools": "^0.12.0",
     "reactify": "0.15.2"
   }

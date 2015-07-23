@@ -5,8 +5,8 @@ var mongoose = require("mongoose");
 var models = require('../models');
 var config = require('../config');
 var React = require('react/addons');
-
-mongoose.connect(process.env.MONGO_URL);
+var connectURL = process.env.MONGO_URL || process.env.MONGOLAB_URI;
+mongoose.connect(connectURL);
 
 module.exports = function (app) {
 

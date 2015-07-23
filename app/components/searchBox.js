@@ -4,9 +4,10 @@ var React = require('react/addons');
 var Griddle = require('griddle-react');
 var models = require('../models');
 var elasticsearch = require('elasticsearch');
+var connectionString = process.env.ELASTICSEARCH_URL || process.env.SEARCHBOX_URL;
 
 var client = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: connectionString,
     //log: 'trace',
     requestTimeout: Infinity, // Tested
     keepAlive: true // Tested
