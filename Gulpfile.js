@@ -51,9 +51,4 @@ gulp.task('start', function () {
 
 gulp.task('nodemon', ['scripts','css', 'fonts', 'start']);
 
-gulp.task('default', ['scripts','css', 'fonts'], function() {
-    exec('node server.js', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-    });
-});
+gulp.task('default', ['scripts','css', 'fonts'], function() {});
