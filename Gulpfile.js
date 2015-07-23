@@ -48,7 +48,7 @@ gulp.task('fonts', function () {
 
 gulp.task('images', function () {
     return gulp.src([
-        'images/logo.ico'
+        'images/logo.*'
     ]).pipe(gulp.dest('public/images'));
 });
 
