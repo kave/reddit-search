@@ -5,7 +5,7 @@ var request = require('request');
 
 request('http://localhost:4444/reddit/', function (error, response, data) {
     //console.log(data);
-    if(data != "" || data != null)
+    if(data != "" && data != null)
         data = JSON.parse(data);
     else
         data = [];
