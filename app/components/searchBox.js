@@ -7,7 +7,7 @@ var elasticsearch = require('elasticsearch');
 var connectionString = process.env.ELASTICSEARCH_URL || process.env.SEARCHBOX_URL;
 
 var client = new elasticsearch.Client({
-    host: 'http://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
+    host: 'https://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
     //log: 'trace',
     requestTimeout: Infinity, // Tested
     keepAlive: true // Tested
@@ -62,6 +62,7 @@ var GriddleTableNameItem = React.createClass({
         this.setState({isOpen: false});
     },
     render: function () {
+        console.log(connectionString);
         var text = $.parseHTML(this.props.rowData.text);
         if(text != null)
             text = text[0].textContent;
