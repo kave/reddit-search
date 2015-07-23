@@ -3,8 +3,7 @@ var React = require('react/addons');
 var SearchBox = require('./components/SearchBox');
 var request = require('request');
 
-request('/reddit/', function (error, response, data) {
-    //console.log(data);
+request('http://reddit-search.herokuapp.com/reddit/', function (error, response, data) {
     if(data != "" && data != null)
         data = JSON.parse(data);
     else

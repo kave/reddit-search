@@ -7,7 +7,7 @@ var elasticsearch = require('elasticsearch');
 var connectionString = process.env.ELASTICSEARCH_URL || process.env.SEARCHBOX_URL;
 
 var client = new elasticsearch.Client({
-    host: connectionString,
+    host: 'http://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
     //log: 'trace',
     requestTimeout: Infinity, // Tested
     keepAlive: true // Tested
