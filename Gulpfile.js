@@ -5,6 +5,8 @@ var gulp       = require('gulp'),
     uglify = require('gulp-uglify'),
     minifyCss = require('gulp-minify-css');
 
+var exec = require('child_process').exec;
+
 gulp.task('scripts', function () {
     gulp.src(['app/main.js'])
         .pipe(browserify({
@@ -47,5 +49,11 @@ gulp.task('start', function () {
     })
 });
 
-gulp.task('default', ['scripts','css', 'fonts', 'start']);
+gulp.task('nodemon', ['scripts','css', 'fonts', 'start']);
 
+gulp.task('default', ['scripts','css', 'fonts'], function() {
+    exec('node server.js', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
+});

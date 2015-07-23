@@ -1,7 +1,7 @@
 {
   "name": "node-authentication",
   "main": "server.js",
-  "engines" : {
+  "engines": {
     "node": "0.12.7"
   },
   "dependencies": {
@@ -13,26 +13,29 @@
     "express": "~4.0.0",
     "griddle-react": "^0.1.19",
     "gulp-concat": "^2.6.0",
-    "gulp-nodemon": "^2.0.3",
     "jquery": "^2.1.4",
     "mongoose": "^4.0.7",
+    "node-jsx": "~0.2.0",
     "node-schedule": "^0.2.9",
     "path": "*",
     "react": "^0.13.3",
     "react-modal-bootstrap": "^0.1.2",
     "request": "^2.58.0",
     "snoocore": "^3.2.0",
-    "node-jsx": "~0.2.0",
-    "tls": "0.0.1"
-  },
-  "devDependencies": {
+    "tls": "0.0.1",
     "browserify": "~3.20.0",
     "gulp": "~3.8.9",
     "gulp-browserify": "~0.5.0",
-    "gulp-concat": "~2.4.1",
     "gulp-minify-css": "^1.2.0",
     "gulp-uglify": "^1.2.0",
     "react-tools": "^0.12.0",
-    "reactify": "0.15.2"
+    "reactify": "0.15.2",
+    "gulp-nodemon": "^2.0.3"
+  },
+  "devDependencies": {
+
+  },
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }
