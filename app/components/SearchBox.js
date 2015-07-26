@@ -17,6 +17,21 @@ var client = new elasticsearch.Client({
     keepAlive: true // Tested
 });
 
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
 function highlighted(link, highlight) {
     if(highlight != null) {
         if ('name' in highlight) {
@@ -30,6 +45,11 @@ function highlighted(link, highlight) {
     return link;
 }
 
+function searchInput(obj){
+    var query = obj.refs.searchInput.getDOMNode().value; // this is the search text
+    obj.props.search(query);
+}
+
 var SearchBox = React.createClass({
     getInitialState: function () {
         return {
@@ -37,8 +57,7 @@ var SearchBox = React.createClass({
         };
     },
     search: function () {
-        var query = this.refs.searchInput.getDOMNode().value; // this is the search text
-        this.props.search(query);
+        return debounce(searchInput(this), 900)
     },
     render: function () {
         return (
