@@ -164,7 +164,7 @@ var QueryFilter = React.createClass({
                     }
                 }
             }
-        }
+        };
 
         var returnAllOptions = {
             index: 'reddit',
@@ -183,6 +183,10 @@ var QueryFilter = React.createClass({
             options = returnAllOptions;
 
         var state = this;
+        state.setState({ //SetQuery Text before running search
+            query: queryText
+        });
+
         client.search(options).then(function (resp) {
             var queryResult = [];
             var hits = resp.hits.hits;
@@ -191,7 +195,6 @@ var QueryFilter = React.createClass({
             });
 
             state.setState({
-                query: queryText,
                 filteredData: queryResult
             });
         }, function (err) {

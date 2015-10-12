@@ -7,7 +7,7 @@ var models = require('../models');
 var elasticsearch = require('elasticsearch');
 
 var client = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: 'https://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
     //log: 'trace',
     requestTimeout: Infinity, // Tested
     keepAlive: true // Tested
@@ -160,7 +160,7 @@ var QueryFilter = React.createClass({displayName: "QueryFilter",
                     }
                 }
             }
-        }
+        };
 
         var returnAllOptions = {
             index: 'reddit',
@@ -179,6 +179,10 @@ var QueryFilter = React.createClass({displayName: "QueryFilter",
             options = returnAllOptions;
 
         var state = this;
+        state.setState({ //SetQuery Text before running search
+            query: queryText
+        });
+
         client.search(options).then(function (resp) {
             var queryResult = [];
             var hits = resp.hits.hits;
@@ -187,7 +191,6 @@ var QueryFilter = React.createClass({displayName: "QueryFilter",
             });
 
             state.setState({
-                query: queryText,
                 filteredData: queryResult
             });
         }, function (err) {
