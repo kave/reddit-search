@@ -5,3 +5,4 @@ db*
 mongo-connector.log*
 oplog.timestamp
 bower_components
+.env

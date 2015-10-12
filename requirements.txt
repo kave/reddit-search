@@ -1,0 +1,7 @@
+autoenv==1.0.0
+elasticsearch==1.7.0
+mongo-connector==2.1
+pymongo==2.9
+pysolr==3.3.2
+requests==2.8.0
+urllib3==1.12

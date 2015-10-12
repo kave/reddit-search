@@ -7,7 +7,7 @@ var models = require('../models');
 var elasticsearch = require('elasticsearch');
 
 var client = new elasticsearch.Client({
-    host: 'https://paas:34257cecaea072101ededb633cba5dfe@dwalin-us-east-1.searchly.com',
+    host: 'localhost:9200',
     //log: 'trace',
     requestTimeout: Infinity, // Tested
     keepAlive: true // Tested
